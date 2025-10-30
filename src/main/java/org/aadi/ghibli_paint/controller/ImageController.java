@@ -75,8 +75,14 @@ public class ImageController {
                     .findFirst()
                     .orElseThrow(() -> new RuntimeException("Image not found"));
 
-            Path path = Paths.get(image.getImageUrl());
+            // Extract filename from URL (e.g., "http://localhost:8080/api/images/serve/uuid.png" -> "uuid.png")
+            String filename = image.getImageUrl().substring(image.getImageUrl().lastIndexOf('/') + 1);
+            Path path = Paths.get("generated-images").resolve(filename);
             Resource resource = new FileSystemResource(path);
+
+            if (!resource.exists()) {
+                return ResponseEntity.notFound().build();
+            }
 
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + image.getOriginalFilename() + "\"")

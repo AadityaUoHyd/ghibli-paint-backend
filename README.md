@@ -7,7 +7,11 @@ Built with **Spring Boot**, **React (TypeScript)**, and **NeonDB**, it features 
 
 
 ## Sample Screenshots
-![Ghibli Paint](screenshots/create.png)
+- Before clicking generate
+![create Image](screenshots/create.png)
+
+- After generating in gallery
+![GalleryImage](screenshots/galleryImage.png)
 
 
 ## 🏗️ Project Structure

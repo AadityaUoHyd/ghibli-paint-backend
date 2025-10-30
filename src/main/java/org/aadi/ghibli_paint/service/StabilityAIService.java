@@ -129,7 +129,7 @@ public class StabilityAIService {
         builder.part("prompt", enhancedPrompt);
         builder.part("image", imageFile.getResource());  // init_image -> image
         builder.part("strength", "0.35");  // image_strength -> strength
-        builder.part("aspect_ratio", "1:1");
+        // Note: aspect_ratio is not allowed when mode is 'image-to-image'
         builder.part("output_format", "png");
         builder.part("seed", 42);
         builder.part("mode", "image-to-image");  // Required for SD3 image-to-image
