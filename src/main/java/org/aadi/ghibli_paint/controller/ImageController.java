@@ -86,4 +86,22 @@ public class ImageController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @GetMapping("/serve/{filename}")
+    public ResponseEntity<Resource> serveImage(@PathVariable String filename) {
+        try {
+            Path path = Paths.get("generated-images").resolve(filename);
+            Resource resource = new FileSystemResource(path);
+
+            if (!resource.exists()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_PNG)
+                    .body(resource);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

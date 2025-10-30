@@ -36,6 +36,9 @@ public class StabilityAIService {
     @Value("${stability.api.url}")
     private String apiUrl;
 
+    @Value("${app.base-url:http://localhost:8080}")
+    private String baseUrl;
+
     private final GeneratedImageRepository generatedImageRepository;
     private final UserService userService;
 
@@ -200,7 +203,9 @@ public class StabilityAIService {
         }
 
         try {
-            Path path = Paths.get(image.getImageUrl());
+            // Extract filename from URL (e.g., "http://localhost:8080/api/images/serve/uuid.png" -> "uuid.png")
+            String filename = image.getImageUrl().substring(image.getImageUrl().lastIndexOf('/') + 1);
+            Path path = Paths.get(IMAGE_STORAGE_PATH).resolve(filename);
             Files.deleteIfExists(path);
         } catch (IOException e) {
             log.error("Error deleting image file", e);
@@ -218,6 +223,6 @@ public class StabilityAIService {
         Path filePath = directory.resolve(filename);
         Files.write(filePath, imageBytes);
 
-        return filePath.toString();
+        return baseUrl + "/api/images/serve/" + filename;
     }
 }
